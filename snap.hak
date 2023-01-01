@@ -1,0 +1,175 @@
+#SingleInstance Force
+
+esc::exitapp
+
+!x::
+	while 1
+	{
+		turn4 := false
+		ToolTip, starting, 100, 100
+		; Start game
+		while 1
+		{
+			ImageSearch, fx, fy, 0, 0, 1500, 1500, *75 C:\Users\marku\Pictures\snapsnips\playbutton.PNG
+
+			if (ErrorLevel != 0)
+				continue
+			Random, ox, -40, 40
+			Random, oy, -50, 50
+			MouseMove, fx+ox, fy+oy, 5
+			Click
+			ToolTip, start button clicked, 100, 100
+			Random, slept, 1000, 3000
+			Sleep, slept
+			if (ErrorLevel == 0)
+				break
+		}
+		; next turn loop
+		clickcount := 0
+		while 1
+		{
+			ImageSearch, fx, fy, 0, 0, 1500, 1500, *75 C:\Users\marku\Pictures\snapsnips\rewards.PNG
+			if (ErrorLevel == 0)
+			{
+				Random, ox, -40, 60
+				Random, oy, -25, 10
+				MouseMove, fx+ox, fy+oy, 5
+				Click
+				break
+			}
+			wincount := 0
+			ImageSearch, fx, fy, 760, 550, 820, 605, *40 C:\Users\marku\Pictures\snapsnips\winning.PNG
+			if (ErrorLevel == 0)
+			{
+				wincount++
+			}
+			ImageSearch, fx, fy, 945, 540, 1000, 583, *40 C:\Users\marku\Pictures\snapsnips\winning.PNG
+			if (ErrorLevel == 0)
+			{
+				wincount++
+			}
+			ImageSearch, fx, fy, 1120, 555, 1170, 600, *40 C:\Users\marku\Pictures\snapsnips\winning.PNG
+			if (ErrorLevel == 0)
+			{
+				wincount++
+			}
+
+			ToolTip, %wincount%, 100, 100
+
+			if (clickcount > 2)
+			{
+				turn4 := true
+			}
+			ImageSearch, fx, fy, 0, 0, 1500, 1500, *100 C:\Users\marku\Pictures\snapsnips\turnlit.PNG
+			lit := false
+			if (ErrorLevel == 0)
+			{
+				lit := true
+			}
+
+			if (lit == false)
+			{
+				ToolTip, "skipping", 100, 100
+				continue
+			}
+
+			ImageSearch, fx, fy, 0, 0, 1500, 1500, *50 C:\Users\marku\Pictures\snapsnips\retreat.PNG
+			retreatfound := false
+			if (ErrorLevel == 0)
+			{
+				retreatfound := true
+			}
+
+
+			if ((turn4 != true) or (wincount < 2))
+			{
+				ImageSearch, fx, fy, 0, 0, 1500, 1500, *50 C:\Users\marku\Pictures\snapsnips\endturn.PNG
+				Random, ox, -40, 60
+				Random, oy, -15, 20
+				if (ErrorLevel == 0)
+				{
+					MouseMove, fx+ox, fy+oy, 5
+					Click
+					clickcount := clickcount + 1
+					Random, slept, 4000, 7000
+					Sleep, slept
+				}
+				else
+				{
+					MouseGetPos xx, yy
+					if (xx > 1100) && (xx < 1350) && (yy > 930) && (yy < 1040)
+					{
+						Random, restx, 1350, 1600
+						Random, resty, 800, 1050
+						MouseMove, restx, resty, 5
+					}
+				}
+			}
+			else if (retreatfound == true)
+			{
+				ToolTip, "retreating", 100, 100
+
+				ImageSearch, fx, fy, 0, 0, 1500, 1500, *50 C:\Users\marku\Pictures\snapsnips\retreat.PNG
+				Random, ox, -40, 60
+				Random, oy, -13, 20
+				if (ErrorLevel == 0)
+				{
+					MouseMove, fx+ox, fy+oy, 5
+					Click
+					while 1
+					{
+						ImageSearch, fx, fy, 0, 0, 1500, 1500, *50 C:\Users\marku\Pictures\snapsnips\retreatnow.PNG
+						Random, ox, -10, 150
+						Random, oy, -10, 40
+						if (ErrorLevel == 0)
+						{
+							MouseMove, fx+ox, fy+oy, 5
+							Click
+							break
+						}
+
+					}
+					Sleep, 3000
+					while 1
+					{
+						ToolTip, "finding rewards button", 100, 100
+						ImageSearch, fx, fy, 0, 0, 1500, 1500, *45 C:\Users\marku\Pictures\snapsnips\rewards.PNG
+						if (ErrorLevel == 0)
+						{
+							ToolTip, "rewards button clicked", 100, 100
+							;Random, ox, -40, 60
+							;Random, oy, -20, 0
+							MouseMove, fx, fy, 5
+							Click
+							break
+						}
+					}
+					break
+				}
+				else
+				{
+					MouseGetPos xx, yy
+					if (xx > 1100) && (xx < 1350) && (yy > 930) && (yy < 1040)
+					{
+						Random, restx, 1350, 1600
+						Random, resty, 800, 1050
+						MouseMove, restx, resty, 5
+					}
+				}
+			}
+		}
+		while 1
+		{
+			ImageSearch, fx, fy, 0, 0, 1500, 1500, *50 C:\Users\marku\Pictures\snapsnips\next.PNG
+			if (ErrorLevel == 0)
+			{
+				Random, ox, -30, 30
+				Random, oy, -40, 40
+				MouseMove, fx+ox, fy+oy, 5
+				Click
+				break
+			}
+		}
+	}
+
+
